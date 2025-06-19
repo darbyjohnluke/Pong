@@ -35,7 +35,7 @@ right_bar.shape("square")
 right_bar.shapesize(stretch_len=1, stretch_wid=5)
 
 
-heading = 45
+heading = 40
 ycor = 0
 def move_right():
    global ycor
@@ -49,25 +49,22 @@ def move_left():
 def bounce(x, y):
    global heading
    if float(ball.xcor()) > x:
-      if heading == 45:
-         heading = 135
-      elif heading == 315:
-         heading = 225
+      if 0 <= heading <= 90:
+         heading = 180 - heading
+      elif 270 < heading < 360:
+         heading = 540 - heading
    if float(ball.xcor()) < -x:
-      if heading == 135:
-         heading = 45
-      elif heading == 225:
-         heading = 315
+      if 90 < heading <= 180:
+         heading = 180 - heading
+      elif 180 < heading < 270:
+         heading = 540 - heading
    if float(ball.ycor()) > y:
-      if heading == 135:
-         heading = 225
-      elif heading == 45:
-         heading = 315
+      if 0 <= heading <= 180:
+         heading = 360 - heading
    if float(ball.ycor()) < -y:
-      if heading == 315:
-         heading = 45
-      elif heading == 225:
-         heading = 135
+      if 270 < heading < 360 or 180 < heading <= 270:
+         heading = 360 - heading
+
 timesleep = 0.01
 current_score = 0
 game_is_on = True
@@ -79,16 +76,17 @@ while game_is_on:
    bounce(480, 380)
    if ball.distance(right_bar) < 60:
       bounce(451.548339959392, 380)
+      if 450 < ball.xcor() < 455:
+         current_score += 1
+         timesleep -= 0.001
+         print(ball.xcor())
+   score.num_one(current_score)
+
    if ball.xcor() >= 480:
       game_is_on = False
       game_over.color("lime green")
       game_over.write("GAME OVER", align="center", font=("courier", 25, "normal"))
-   if ball.xcor() == 452.548339959392:
-      current_score += 1
-      print(ball.xcor())
-   score.num_one(current_score)
-
-
+ 
 
    screen.listen()
    screen.onkey(move_right, "Up")
