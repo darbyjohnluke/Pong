@@ -9,14 +9,27 @@ screen.bgcolor("black")
 screen.title("PONG!!!")
 screen.setup(width=1000, height=800)
 screen.tracer(0)
-
-middle_border = Turtle()
 game_over = Turtle()
 game_over.hideturtle()
-middle_border.color("white")
-middle_border.shape("square")
-middle_border.shapesize(stretch_wid=40, stretch_len=0.3)
 
+def border():
+   middle_border = Turtle()
+   middle_border.color("white")
+   middle_border.shape("square")
+   middle_border.shapesize(stretch_wid=100, stretch_len=0.01)
+   middle_border.penup()
+   return middle_border
+
+right_border = border()
+right_border.goto(490, 0)
+left_border = border()
+left_border.goto(-497, 0)
+upper_border = border()
+upper_border.goto(0, 397)
+upper_border.setheading(270)
+lower_border = border()
+lower_border.goto(0, -390)
+lower_border.setheading(270)
 ball = Turtle()
 ball.penup()
 right_bar = Turtle()
@@ -35,7 +48,7 @@ right_bar.shape("square")
 right_bar.shapesize(stretch_len=1, stretch_wid=5)
 
 
-heading = 40
+heading = 33
 ycor = 0
 def move_right():
    global ycor
@@ -78,7 +91,7 @@ while game_is_on:
       bounce(451.548339959392, 380)
       if 450 < ball.xcor() < 455:
          current_score += 1
-         timesleep -= 0.001
+         timesleep = timesleep/1.3
          print(ball.xcor())
    score.num_one(current_score)
 
@@ -86,7 +99,12 @@ while game_is_on:
       game_is_on = False
       game_over.color("lime green")
       game_over.write("GAME OVER", align="center", font=("courier", 25, "normal"))
- 
+   # if 450 < ball.xcor() < 455:
+   #    current_score += 1
+
+   # score.num_one(current_score)
+
+
 
    screen.listen()
    screen.onkey(move_right, "Up")
